@@ -1,4 +1,4 @@
-exports.UserMessages = {
+export const UserMessages = {
   FILL_ALL_FIELDS: "Please fill all the fields",
   USER_NOT_FOUND: "User not found",
   INVALID_CREDENTIALS: "Invalid credentials",
@@ -9,7 +9,7 @@ exports.UserMessages = {
   SERVER_ERROR: "Internal server error",
 };
 
-exports.HttpStatus = {
+export const HttpStatus = {
   SUCCESS: 200,
   CREATED: 201,
   BAD_REQUEST: 400,
@@ -19,7 +19,7 @@ exports.HttpStatus = {
   SERVER_ERROR: 500,
 };
 
-exports.UserRoles = {
+export const UserRoles = {
   USER: "user",
   ADMIN: "admin",
 };

@@ -1,7 +1,6 @@
-// utils/responseHelper.js
-const { HttpStatus } = require('./constants');
+import { HttpStatus } from "./constants.js";
 
-exports.successResponse = (res, message, data = null, statusCode = HttpStatus.SUCCESS) => {
+export const successResponse = (res, message, data = null, statusCode = HttpStatus.SUCCESS) => {
   return res.status(statusCode).json({
     success: true,
     message,
@@ -9,14 +8,14 @@ exports.successResponse = (res, message, data = null, statusCode = HttpStatus.SU
   });
 };
 
-exports.errorResponse = (res, message, statusCode = HttpStatus.SERVER_ERROR) => {
+export const errorResponse = (res, message, statusCode = HttpStatus.SERVER_ERROR) => {
   return res.status(statusCode).json({
     success: false,
     message,
   });
 };
 
-exports.validationError = (res, errors) => {
+export const validationError = (res, errors) => {
   return res.status(HttpStatus.BAD_REQUEST).json({
     success: false,
     message: "Validation failed",

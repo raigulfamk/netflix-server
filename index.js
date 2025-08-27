@@ -14,15 +14,17 @@ dbConnection();
 const app = express();
 app.use(helmet());
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
+  windowMs: 15 * 60 * 1000, 
   max: 100, 
   message: 'Too many requests from this IP, please try again later.'
 });
 app.use('/api', limiter);
+
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(mongoSanitize());
 app.use(hpp());
+
 app.use(cookieParser());
 app.use(cors({
   origin: process.env.FRONTEND_URL,
@@ -58,7 +60,6 @@ const PORT = process.env.PORT || 8000;
 const server = app.listen(PORT, () => {
   console.log(`Server is running in ${process.env.NODE_ENV} mode on port ${PORT}`);
 });
-
 process.on('unhandledRejection', (err) => {
   console.error('Unhandled Rejection:', err);
   server.close(() => {

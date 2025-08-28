@@ -1,60 +1,34 @@
-// index.js
-import express from 'express';
+import express from 'express';  
 import dotenv from 'dotenv';
+import dbConnection from './utils/dbConnection.js';
 import cookieParser from 'cookie-parser';
+import userRoutes from './routes/userRoutes.js';
 import cors from 'cors';
 
-// Load environment variables
-dotenv.config();
+
+dbConnection()
+
+dotenv.config({
+    path:'./config.env'
+})
 
 const app = express();
-const PORT = process.env.PORT;
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+app.use(cookieParser())
 
-// Basic middleware
-app.use(express.json());
-app.use(cookieParser());
+
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
-  credentials: true
-}));
+    origin: process.env.FRONTEND_URL, // Allow requests from the frontend URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+    credentials: true, // Allow credentials (cookies) to be sent
+}))
 
-// Simple health check route
-app.get('/api/health', (req, res) => {
-  res.json({ 
-    success: true, 
-    message: 'Server is running successfully!',
-    timestamp: new Date().toISOString()
-  });
-});
+//api 
 
-// Test user route
-app.get('/api/test/user', (req, res) => {
-  res.json({ 
-    success: true, 
-    message: 'User route is working!'
-  });
-});
+app.use('/api/v1/user', userRoutes)
 
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Route not found'
-  });
-});
-
-// Error handler
-app.use((error, req, res, next) => {
-  console.error('Server Error:', error);
-  res.status(500).json({
-    success: false,
-    message: 'Internal server error'
-  });
-});
-
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
-
-export default app;
+app.listen(process.env.PORT, () => {
+    console.log(`Server is running on port ${process.env.PORT}`);
+}  );
